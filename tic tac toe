@@ -1,0 +1,817 @@
+import tkinter as tk
+import random
+import time
+
+
+root = tk.Tk()
+root.title("DS Tic-Tac-Toe")
+
+def threeplayer():
+    
+
+    a = [[' ', ' ', ' '],
+         [' ', ' ', ' '],
+         [' ', ' ', ' ']]
+
+    def display():
+        print(''+a[0][0]+' |' +a[0][1]+'|'+a[0][2])
+        print('__|_|__')
+        print(''+a[1][0]+ ' |'+a[1][1]+'|'+a[1][2])
+        print('__|_|__')
+        print(''+a[2][0]+ ' |'+a[2][1]+'|'+a[2][2])
+    def win(item):
+        for i in range(3):
+            if a[0][0] == a[0][1] == a[0][2] == item:
+                for i in range(3):
+                    for j in range(3):
+                        buttons[0][j].configure(text='win')  
+                return True
+
+        for j in range(3):
+            if a[0][0] == a[1][0] == a[2][0] == item:
+                for i in range(3):
+                    for j in range(3):
+                        buttons[i][0].configure(text='win')
+                return True    
+
+        for i in range(3):
+            if a[1][0] == a[1][1] == a[1][2] == item:
+                for i in range(3):
+                    for j in range(3):
+                        buttons[1][j].configure(text='win')  
+                return True  
+
+        for j in range(3):
+            if a[0][1] == a[1][1] == a[2][1] == item:
+                for i in range(3):
+                    for j in range(3):
+                        buttons[i][1].configure(text='win')
+                return True
+
+        for i in range(3):
+            if a[2][0] == a[2][1] == a[2][2] == item:
+                for i in range(3):
+                    for j in range(3):
+                        buttons[2][j].configure(text='win')  
+                return True
+
+        for j in range(3):
+            if a[0][2] == a[1][2] == a[2][2] == item:
+                for i in range(3):
+                    for j in range(3):
+                        buttons[i][2].configure(text='win')
+                return True  
+
+        if a[0][0] == a[1][1] == a[2][2] == item:
+            for i in range(3):
+                for j in range(3):
+                    buttons[0][0].configure(text='win')
+                    buttons[1][1].configure(text='win')
+                    buttons[2][2].configure(text='win')
+            return True
+
+        if a[0][2] == a[1][1] == a[2][0] == item:
+            for i in range(3):
+                for j in range(3):
+                    buttons[0][2].configure(text='win')
+                    buttons[1][1].configure(text='win')
+                    buttons[2][0].configure(text='win')
+            return True  
+
+        return False
+    
+    
+    def button_click(row, column):
+        nonlocal a,item
+        if a[row][column] == ' ':
+            a[row][column] = item
+            buttons[row][column].configure(text=item)
+            if win(item):
+                print(item + ' wins!')
+                display()
+                
+            elif check_tie():
+                print("It's a tie!")
+                for i in range(3):
+                    for j in range(3):
+                        buttons[i][j].configure(text='TIE')
+                display()
+            
+            else:
+                switch()
+        else:
+            print('Invalid move, try again.')
+            
+            
+    def check_tie():
+        for i in range(3):
+            for j in range(3):
+                if a[i][j] == ' ':
+                    return False
+        return True
+            
+    def switch():
+        nonlocal item 
+        if item == 'X':
+            item = 'O'
+            print("O's turn")
+        else:
+            item = 'X'
+            print("X's turn")
+
+    def reset_game():
+        
+        nonlocal a,item
+        a = [[' ', ' ', ' '],
+             [' ', ' ', ' '],
+             [' ', ' ', ' ']]
+        item = 'X'
+        for i in range(3):
+            for j in range(3):
+                buttons[i][j].configure(text='')
+        print("New game started. X's turn")
+    reset_button = tk.Button(root, text='Restart',width=5, command=reset_game)
+    reset_button.grid(row=3, column=0, pady=10)
+
+    buttons = []
+    for i in range(3):
+        row = []
+        for j in range(3):
+            button = tk.Button(root, text='', font=('Times Roman', 20), width=3, height=1,
+                               command=lambda i=i, j=j: button_click(i, j),bg='sky blue')
+            button.grid(row=i, column=j, padx=1, pady=1)
+            row.append(button)        
+        buttons.append(row)
+    mark_button = tk.Button(root, text="EXIT", width=5, command=root.destroy)
+    mark_button.grid(row=3, column=1, pady=10)
+
+
+    item = 'X'
+    print("X's turn")
+
+def fourplayer():
+
+    a = [[' ', ' ', ' ',' '],
+         [' ', ' ', ' ',' '],
+         [' ', ' ', ' ',' '],
+         [' ', ' ', ' ',' ']]
+
+
+
+    def display():
+        print(''+a[0][0]+' |' +a[0][1]+'|'+a[0][2]+'|'+a[0][3])
+        print('__|_|_|_')
+        print(''+a[1][0]+ ' |'+a[1][1]+'|'+a[1][2]+'|'+a[1][3])
+        print('__|_|_|_')
+        print(''+a[2][0]+ ' |'+a[2][1]+'|'+a[2][2]+'|'+a[2][3])
+        print('__|_|_|_')
+        print(''+a[3][0]+ ' |'+a[3][1]+'|'+a[3][2]+'|'+a[3][3])
+        print('  | | | ')
+
+    def win(item):
+        for i in range(4):
+            if a[0][0] == a[0][1] == a[0][2] ==a[0][3] == item:
+                for i in range(4):
+                    for j in range(4):
+                        buttons[0][j].configure(text='win')  
+                return True
+
+        for j in range(4):
+            if a[0][0] == a[1][0] == a[2][0] == a[3][0] == item:
+                for i in range(4):
+                    for j in range(4):
+                        buttons[i][0].configure(text='win')
+                return True    
+
+        for i in range(4):
+            if a[1][0] == a[1][1] == a[1][2] == a[1][3] == item:
+                for i in range(4):
+                    for j in range(4):
+                        buttons[1][j].configure(text='win')  
+                return True  
+
+        for j in range(4):
+            if a[0][1] == a[1][1] == a[2][1] == a[3][1] == item:
+                for i in range(4):
+                    for j in range(4):
+                        buttons[i][1].configure(text='win')
+                return True
+
+        for i in range(4):
+            if a[2][0] == a[2][1] == a[2][2] == a[2][3] == item:
+                for i in range(4):
+                    for j in range(4):
+                        buttons[2][j].configure(text='win')  
+                return True
+
+        for j in range(4):
+            if a[0][2] == a[1][2] == a[2][2] == a[3][2]== item:
+                for i in range(4):
+                    for j in range(4):
+                        buttons[i][2].configure(text='win')
+                return True 
+
+        for i in range(4):
+            if a[3][0] == a[3][1] == a[3][2] == a[3][3] == item:
+                for i in range(4):
+                    for j in range(4):
+                        buttons[3][j].configure(text='win')  
+                return True
+
+        for j in range(4):
+            if a[0][3] == a[1][3] == a[2][3] == a[3][3]== item:
+                for i in range(4):
+                    for j in range(4):
+                        buttons[i][3].configure(text='win')
+                return True 
+
+        if a[0][0] == a[1][1] == a[2][2] == a[3][3] == item:
+            for i in range(4):
+                for j in range(4):
+                    buttons[0][0].configure(text='win')
+                    buttons[1][1].configure(text='win')
+                    buttons[2][2].configure(text='win')
+                    buttons[3][3].configure(text='win')
+            return True
+
+        if a[0][3] == a[1][2] == a[2][1] == a[3][0] == item:
+            for i in range(4):
+                for j in range(4):
+                    buttons[0][3].configure(text='win')
+                    buttons[1][2].configure(text='win')
+                    buttons[2][1].configure(text='win')
+                    buttons[3][0].configure(text='win')
+            return True  
+
+        return False
+
+    def button_click(row, column):
+        
+        nonlocal a, item
+        if a[row][column] == ' ':
+            a[row][column] = item
+            buttons[row][column].configure(text=item)
+            if win(item):
+                print(item + ' wins!')
+                display()
+                
+            elif check_tie():
+                print("It's a tie!")
+                for i in range(4):
+                    for j in range(4):
+                        buttons[i][j].configure(text='TIE')
+                display()
+            else:
+                switch()
+        else:
+            print('Invalid move, try again.')
+
+    def switch():
+        
+        nonlocal a, item
+        if item == 'X':
+            item = 'O'
+            print("O's turn")
+        else:
+            item = 'X'
+            print("X's turn")
+            
+            
+    def check_tie():
+        for i in range(4):
+            for j in range(4):
+                if a[i][j] == ' ':
+                    return False
+        return True
+
+    def reset_game():
+        
+        nonlocal a,item
+        a = [[' ', ' ', ' ',' '],
+             [' ', ' ', ' ',' '],
+             [' ', ' ', ' ',' '],
+             [' ', ' ', ' ',' ']]
+
+        item = 'X'
+        for i in range(4):
+            for j in range(4):
+                buttons[i][j].configure(text='')
+        print("New game started. X's turn")
+    reset_button = tk.Button(root, text='Restart',width=5, command=reset_game)
+    reset_button.grid(row=4, column=0, pady=10)
+    
+    buttons = []
+    for i in range(4):
+        row = []
+        for j in range(4):
+            button = tk.Button(root, text='', font=('Times Roman', 20), width=4, height=1,
+                               command=lambda i=i, j=j: button_click(i, j),bg='sky blue')
+            button.grid(row=i, column=j, padx=1, pady=1)
+            row.append(button)        
+        buttons.append(row)
+    mark_button = tk.Button(root, text="EXIT", width=5, command=root.destroy)
+    mark_button.grid(row=4, column=1, pady=10)  
+
+    item = 'X'
+    print("X's turn")
+
+def threecompplayer():
+
+
+    a = [[' ', ' ', ' '],
+         [' ', ' ', ' '],
+         [' ', ' ', ' ']]
+
+    def display():
+        print(''+a[0][0]+' |' +a[0][1]+'|'+a[0][2])
+        print('__|_|__')
+        print(''+a[1][0]+ ' |'+a[1][1]+'|'+a[1][2])
+        print('__|_|__')
+        print(''+a[2][0]+ ' |'+a[2][1]+'|'+a[2][2])
+    def win(item):
+        for i in range(3):
+            if a[0][0] == a[0][1] == a[0][2] == item:
+                for i in range(3):
+                    for j in range(3):
+                        buttons[0][j].configure(text='win')  
+                return True
+
+        for j in range(3):
+            if a[0][0] == a[1][0] == a[2][0] == item:
+                for i in range(3):
+                    for j in range(3):
+                        buttons[i][0].configure(text='win')
+                return True    
+
+        for i in range(3):
+            if a[1][0] == a[1][1] == a[1][2] == item:
+                for i in range(3):
+                    for j in range(3):
+                        buttons[1][j].configure(text='win')  
+                return True  
+
+        for j in range(3):
+            if a[0][1] == a[1][1] == a[2][1] == item:
+                for i in range(3):
+                    for j in range(3):
+                        buttons[i][1].configure(text='win')
+                return True
+
+        for i in range(3):
+            if a[2][0] == a[2][1] == a[2][2] == item:
+                for i in range(3):
+                    for j in range(3):
+                        buttons[2][j].configure(text='win')  
+                return True
+
+        for j in range(3):
+            if a[0][2] == a[1][2] == a[2][2] == item:
+                for i in range(3):
+                    for j in range(3):
+                        buttons[i][2].configure(text='win')
+                return True  
+
+        if a[0][0] == a[1][1] == a[2][2] == item:
+            for i in range(3):
+                for j in range(3):
+                    buttons[0][0].configure(text='win')
+                    buttons[1][1].configure(text='win')
+                    buttons[2][2].configure(text='win')
+            return True
+
+        if a[0][2] == a[1][1] == a[2][0] == item:
+            for i in range(3):
+                for j in range(3):
+                    buttons[0][2].configure(text='win')
+                    buttons[1][1].configure(text='win')
+                    buttons[2][0].configure(text='win')
+            return True
+        
+        return False
+
+        
+        
+    def compwin(computer):  
+        
+        for i in range(3):
+            if a[0][0] == a[0][1] == a[0][2] == computer:
+                for i in range(3):
+                    for j in range(3):
+                        buttons[0][j].configure(text='win')  
+                return True
+
+        for j in range(3):
+            if a[0][0] == a[1][0] == a[2][0] == computer:
+                for i in range(3):
+                    for j in range(3):
+                        buttons[i][0].configure(text='win')
+                return True    
+
+        for i in range(3):
+            if a[1][0] == a[1][1] == a[1][2] == computer:
+                for i in range(3):
+                    for j in range(3):
+                        buttons[1][j].configure(text='win')  
+                return True  
+
+        for j in range(3):
+            if a[0][1] == a[1][1] == a[2][1] == computer:
+                for i in range(3):
+                    for j in range(3):
+                        buttons[i][1].configure(text='win')
+                return True
+
+        for i in range(3):
+            if a[2][0] == a[2][1] == a[2][2] == computer:
+                for i in range(3):
+                    for j in range(3):
+                        buttons[2][j].configure(text='win')  
+                return True
+
+        for j in range(3):
+            if a[0][2] == a[1][2] == a[2][2] == computer:
+                for i in range(3):
+                    for j in range(3):
+                        buttons[i][2].configure(text='win')
+                return True  
+
+        if a[0][0] == a[1][1] == a[2][2] == computer:
+            for i in range(3):
+                for j in range(3):
+                    buttons[0][0].configure(text='win')
+                    buttons[1][1].configure(text='win')
+                    buttons[2][2].configure(text='win')
+            return True
+
+        if a[0][2] == a[1][1] == a[2][0] == computer:
+            for i in range(3):
+                for j in range(3):
+                    buttons[0][2].configure(text='win')
+                    buttons[1][1].configure(text='win')
+                    buttons[2][0].configure(text='win')
+            return True  
+        
+        return False
+    
+    def button_click(row, column):
+        nonlocal a, item, computer
+        item = 'X'
+        computer = 'O'
+        if a[row][column] == ' ':
+            a[row][column] = item
+            buttons[row][column].configure(text=item)
+            if win(item):
+                print(item + ' wins!')
+                display()
+                
+            elif check_tie():
+                print("It's a tie!")
+                for i in range(3):
+                    for j in range(3):
+                        buttons[i][j].configure(text='TIE')
+                display()
+            else:
+                switch()
+                
+        else:
+            print("Invalid move, try again!")
+        
+    def switch():
+        
+        nonlocal a, item, computer
+        if item:
+            random_place()
+            
+    def reset_game():
+        
+        nonlocal a,item, computer
+        a = [[' ', ' ', ' '],
+             [' ', ' ', ' '],
+             [' ', ' ', ' ']]
+
+        item = 'X'
+        computer = 'O'
+        for i in range(3):
+            for j in range(3):
+                buttons[i][j].configure(text='')
+        print("New game started")
+        
+        return
+    
+    reset_button = tk.Button(root, text='Restart',width=5, command=reset_game)
+    reset_button.grid(row=4, column=0, pady=10)  
+    
+    def check_tie():
+        for i in range(3):
+            for j in range(3):
+                if a[i][j] == ' ':
+                    return False
+        return True
+    
+    def random_place():
+        nonlocal computer
+        computer = 'O'
+        while True:
+            i = random.randint(0, 2)
+            j = random.randint(0, 2)
+            if a[i][j] == ' ':
+                a[i][j] = computer
+                buttons[i][j].configure(text=computer)
+                if compwin(computer):
+                    print(computer + 'wins!')
+                    display()
+                    
+                break
+
+    buttons = []
+    for i in range(3):
+        row = []
+        for j in range(3):
+            button = tk.Button(root, text='', font=('Times Roman', 20), width=4, height=1,
+                               command=lambda i=i, j=j: button_click(i, j),bg='sky blue')
+            button.grid(row=i, column=j, padx=1, pady=1)
+            row.append(button)        
+        buttons.append(row)
+    mark_button = tk.Button(root, text="EXIT", width=5, command=root.destroy)
+    mark_button.grid(row=4, column=1, pady=10)
+
+    item = 'X'
+    computer = 'O'
+
+def fourcompplayer():
+
+
+    a = [[' ', ' ', ' ',' '],
+         [' ', ' ', ' ',' '],
+         [' ', ' ', ' ',' '],
+         [' ', ' ', ' ',' ']]
+    
+    def display():
+        print(''+a[0][0]+' |' +a[0][1]+'|'+a[0][2]+'|'+a[0][3])
+        print('__|_|_|_')
+        print(''+a[1][0]+ ' |'+a[1][1]+'|'+a[1][2]+'|'+a[1][3])
+        print('__|_|_|_')
+        print(''+a[2][0]+ ' |'+a[2][1]+'|'+a[2][2]+'|'+a[2][3])
+        print('__|_|_|_')
+        print(''+a[3][0]+ ' |'+a[3][1]+'|'+a[3][2]+'|'+a[3][3])
+        print('  | | | ')
+
+    def win(item):
+        for i in range(4):
+            if a[0][0] == a[0][1] == a[0][2] ==a[0][3] == item:
+                for i in range(4):
+                    for j in range(4):
+                        buttons[0][j].configure(text='win')  
+                return True
+
+        for j in range(4):
+            if a[0][0] == a[1][0] == a[2][0] == a[3][0] == item:
+                for i in range(4):
+                    for j in range(4):
+                        buttons[i][0].configure(text='win')
+                return True    
+
+        for i in range(4):
+            if a[1][0] == a[1][1] == a[1][2] == a[1][3] == item:
+                for i in range(4):
+                    for j in range(4):
+                        buttons[1][j].configure(text='win')  
+                return True  
+
+        for j in range(4):
+            if a[0][1] == a[1][1] == a[2][1] == a[3][1] == item:
+                for i in range(4):
+                    for j in range(4):
+                        buttons[i][1].configure(text='win')
+                return True
+
+        for i in range(4):
+            if a[2][0] == a[2][1] == a[2][2] == a[2][3] == item:
+                for i in range(4):
+                    for j in range(4):
+                        buttons[2][j].configure(text='win')  
+                return True
+
+        for j in range(4):
+            if a[0][2] == a[1][2] == a[2][2] == a[3][2]== item:
+                for i in range(4):
+                    for j in range(4):
+                        buttons[i][2].configure(text='win')
+                return True 
+
+        for i in range(4):
+            if a[3][0] == a[3][1] == a[3][2] == a[3][3] == item:
+                for i in range(4):
+                    for j in range(4):
+                        buttons[3][j].configure(text='win')  
+                return True
+
+        for j in range(4):
+            if a[0][3] == a[1][3] == a[2][3] == a[3][3]== item:
+                for i in range(4):
+                    for j in range(4):
+                        buttons[i][3].configure(text='win')
+                return True 
+
+        if a[0][0] == a[1][1] == a[2][2] == a[3][3] == item:
+            for i in range(4):
+                for j in range(4):
+                    buttons[0][0].configure(text='win')
+                    buttons[1][1].configure(text='win')
+                    buttons[2][2].configure(text='win')
+                    buttons[3][3].configure(text='win')
+            return True
+
+        if a[0][3] == a[1][2] == a[2][1] == a[3][0] == item:
+            for i in range(4):
+                for j in range(4):
+                    buttons[0][3].configure(text='win')
+                    buttons[1][2].configure(text='win')
+                    buttons[2][1].configure(text='win')
+                    buttons[3][0].configure(text='win')
+            return True
+        return False
+        
+    def compwin(computer):  
+        
+        for i in range(4):
+            if a[0][0] == a[0][1] == a[0][2] ==a[0][3] == computer:
+                for i in range(4):
+                    for j in range(4):
+                        buttons[0][j].configure(text='win')  
+                return True
+
+        for j in range(4):
+            if a[0][0] == a[1][0] == a[2][0] == a[3][0] == computer:
+                for i in range(4):
+                    for j in range(4):
+                        buttons[i][0].configure(text='win')
+                return True    
+
+        for i in range(4):
+            if a[1][0] == a[1][1] == a[1][2] == a[1][3] == computer:
+                for i in range(4):
+                    for j in range(4):
+                        buttons[1][j].configure(text='win')  
+                return True  
+
+        for j in range(4):
+            if a[0][1] == a[1][1] == a[2][1] == a[3][1] == computer:
+                for i in range(4):
+                    for j in range(4):
+                        buttons[i][1].configure(text='win')
+                return True
+
+        for i in range(4):
+            if a[2][0] == a[2][1] == a[2][2] == a[2][3] == computer:
+                for i in range(4):
+                    for j in range(4):
+                        buttons[2][j].configure(text='win')  
+                return True
+
+        for j in range(4):
+            if a[0][2] == a[1][2] == a[2][2] == a[3][2]== computer:
+                for i in range(4):
+                    for j in range(4):
+                        buttons[i][2].configure(text='win')
+                return True 
+
+        for i in range(4):
+            if a[3][0] == a[3][1] == a[3][2] == a[3][3] == computer:
+                for i in range(4):
+                    for j in range(4):
+                        buttons[3][j].configure(text='win')  
+                return True
+
+        for j in range(4):
+            if a[0][3] == a[1][3] == a[2][3] == a[3][3]== computer:
+                for i in range(4):
+                    for j in range(4):
+                        buttons[i][3].configure(text='win')
+                return True 
+
+        if a[0][0] == a[1][1] == a[2][2] == a[3][3] == computer:
+            for i in range(4):
+                for j in range(4):
+                    buttons[0][0].configure(text='win')
+                    buttons[1][1].configure(text='win')
+                    buttons[2][2].configure(text='win')
+                    buttons[3][3].configure(text='win')
+            return True
+
+        if a[0][3] == a[1][2] == a[2][1] == a[3][0] == computer:
+            for i in range(4):
+                for j in range(4):
+                    buttons[0][3].configure(text='win')
+                    buttons[1][2].configure(text='win')
+                    buttons[2][1].configure(text='win')
+                    buttons[3][0].configure(text='win')
+            return True   
+
+        return False
+    
+    def button_click(row, column):
+        nonlocal a, item, computer
+        item = 'X'
+        computer = 'O'
+        if a[row][column] == ' ':
+            a[row][column] = item
+            buttons[row][column].configure(text=item)
+            if win(item):
+                print(item + ' wins!')
+                display()
+                
+            elif check_tie():
+                print("It's a tie!")
+                for i in range(4):
+                    for j in range(4):
+                        buttons[i][j].configure(text='TIE')
+                display()
+            else:
+                switch()
+        else:
+            print("Invalid move, try again!")
+                          
+    def switch():
+        
+        nonlocal a, item, computer
+        if item:
+            random_place()            
+
+    def reset_game():
+        
+        nonlocal a,item, computer
+        a = [[' ', ' ', ' ',' '],
+             [' ', ' ', ' ',' '],
+             [' ', ' ', ' ',' '],
+             [' ', ' ', ' ',' ']]
+
+        item = 'X'
+        computer = 'O'
+        for i in range(4):
+            for j in range(4):
+                buttons[i][j].configure(text='')
+        print("New game started")
+    reset_button = tk.Button(root, text='Restart',width=5, command=reset_game)
+    reset_button.grid(row=4, column=0, pady=10) 
+
+    def check_tie():
+        for i in range(4):
+            for j in range(4):
+                if a[i][j] == ' ':
+                    return False
+        return True
+                
+    def random_place():
+        nonlocal computer
+        computer = 'O'
+        while True:
+            i = random.randint(0, 3)
+            j = random.randint(0, 3)
+            if a[i][j] == ' ':
+                a[i][j] = computer
+                buttons[i][j].configure(text=computer)
+
+                if compwin(computer):
+                    print(computer + ' wins!')
+                    display()
+                elif check_tie():
+                    print("It's a tie!")
+                    for x in range(4):
+                        for y in range(4):
+                            buttons[x][y].configure(text='TIE')
+                    display()
+                break
+    buttons = []
+    for i in range(4):
+        row = []
+        for j in range(4):
+            button = tk.Button(root, text='', font=('Times Roman', 20), width=4, height=1,
+                               command=lambda i=i, j=j: button_click(i, j),bg='sky blue')
+            button.grid(row=i, column=j, padx=1, pady=1)
+            row.append(button)        
+        buttons.append(row)
+    mark_button = tk.Button(root, text="EXIT", width=5, command=root.destroy)
+    mark_button.grid(row=4, column=1, pady=10)
+
+    item = 'X'
+    computer = 'O'
+
+def play():
+        
+    three_button = tk.Button(root, text="Three", width=5, command=threeplayer)
+    three_button.grid(row=0, column=4, pady=10)
+
+    four_button = tk.Button(root, text="Four", width=5, command=fourplayer)
+    four_button.grid(row=1, column=4, pady=10)
+
+    threemultiplayer_button = tk.Button(root, text="3computer", width=10, command=threecompplayer)
+    threemultiplayer_button.grid(row=2, column=4, pady=10)
+
+    fourmultiplayer_button = tk.Button(root, text="4computer", width=10, command=fourcompplayer)
+    fourmultiplayer_button.grid(row=3, column=4, pady=10)
+
+play_button = tk.Button(root, text="PLAY", width=5, command=play)
+play_button.grid(row=0, column=0, pady=10)
+
+root.mainloop()
